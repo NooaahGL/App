@@ -47,6 +47,6 @@ const styles = StyleSheet.create({
     additionalText: {
       textAlign: 'center',
       color: '#777',
-    },
+    }
   });
   

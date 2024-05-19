@@ -3,7 +3,6 @@ import { View, Text, TextInput, Button } from 'react-native';
 import { initializeApp } from '@firebase/app';
 import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
-import {createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from '@firebase/auth';
 
 
 import styles from "./authentication.style"
@@ -62,23 +61,4 @@ const AuthScreen = ({ email, setEmail, password, setPassword, isLogin, setIsLogi
     );
   }
 
-  const handleAuthentication = async () => {
-    try {
-      if (user) {
-        console.log('User logged out successfully!');
-        await signOut(auth);
-      } else {
-        if (isLogin) {
-          await signInWithEmailAndPassword(auth, email, password);
-          console.log('User signed in successfully!');
-        } else {
-          await createUserWithEmailAndPassword(auth, email, password);
-          console.log('User created successfully!');
-        }
-      }
-    } catch (error) {
-      console.error('Authentication error:', error.message);
-    }
-  };
-
-export { AuthScreen, auth, handleAuthentication};
+export { AuthScreen, auth};
