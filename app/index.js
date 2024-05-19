@@ -3,8 +3,9 @@ import { ScrollView, SafeAreaView, View, Text, Dimensions } from "react-native";
 import { useRouter } from "expo-router";
 import { SIZES, COLORS } from "../constants";
 import { Home } from "../components/home/mainhome/mainhome";
-import { AuthScreen, auth, handleAuthentication} from "../components/users/authentication/authentication";
+import { AuthScreen, auth} from "../components/users/authentication/authentication";
 import {  onAuthStateChanged } from '@firebase/auth';
+import {createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from '@firebase/auth';
 
 export default function Index() {
   const router = useRouter();
@@ -21,6 +22,25 @@ export default function Index() {
 
     return () => unsubscribe();
   }, []);
+
+  const handleAuthentication = async () => {
+    try {
+      if (user) {
+        console.log('User logged out successfully!');
+        await signOut(auth);
+      } else {
+        if (isLogin) {
+          await signInWithEmailAndPassword(auth, email, password);
+          console.log('User signed in successfully!');
+        } else {
+          await createUserWithEmailAndPassword(auth, email, password);
+          console.log('User created successfully!');
+        }
+      }
+    } catch (error) {
+      console.error('Authentication error:', error.message);
+    }
+  };
 
 
   return(

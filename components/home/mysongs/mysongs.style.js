@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     fontFamily: FONT.medium,
     color: COLORS.gray,
   },
-  cardsContainer: {
+  tokensContainer: {
     marginTop: SIZES.medium,
     gap: SIZES.small,
   },
