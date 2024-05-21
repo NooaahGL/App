@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import Welcome from "../HomeScreen/Welcome/Welcome";
 import PopularPlaylists from './PopularPlaylists/PopularPlaylists';
 import MyLists from './MyPlaylists/MyPlaylists';
-
+import Track from '../../spotifyApi/Track.js'
 const { width } = Dimensions.get('window');
 
 const HomeScreen = () => {
@@ -16,6 +16,25 @@ const HomeScreen = () => {
   const handleAddPlaylist = () => {
     navigation.navigate('AddListScreen');
   };
+
+  //Track tests
+  const trackTest = async () => {
+    // Perform actions using the access token
+    const song = new Track('7MVIfkyzuUmQ716j8U7yGR');
+    // Fetch track details
+    await song.fetchTrackDetails();
+    console.log(song.trackInfo());
+    // Search for album
+    const playlistID = await Track.searchPlaylist("Top 50: España");
+    const playlist = await Track.createPlaylist(playlistID);
+    /*playlist.forEach(track => {
+      console.log(track.playlistInfo())
+    });*/
+    // Construct track info string
+    const playlistInfoString = playlist.map(track => track.getName()).join("\n\n");
+    console.log(playlistInfoString);
+  }
+  trackTest();
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>

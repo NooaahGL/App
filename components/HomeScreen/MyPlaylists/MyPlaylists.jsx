@@ -15,7 +15,13 @@ const MyLists = () => {
   const { user } = useAuth(); 
 
   const [playlists, setPlaylists] = useState([]);
-
+/*
+  import { useNavigation } from '@react-navigation/native'; 
+  const navigation = useNavigation();
+  const fetchedPlaylists = navigation.addListener('focus', async () => {
+    await getAllPlaylist(user);
+  });
+*/
   useEffect(() => {
     const fetchPlaylists = async () => {
       await getAllPlaylistId(user);
@@ -51,7 +57,6 @@ const MyLists = () => {
             {item.name}
             </PlaylistsCards>
           )}
-          keyExtractor={(item) => item.id}
           contentContainerStyle = {{ columnGap: SIZES.medium}}
           horizontal
         />
