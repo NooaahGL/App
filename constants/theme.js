@@ -11,9 +11,9 @@ const COLORS = {
 };
 
 const FONT = {
-  regular: "DMRegular",
-  medium: "DMMedium",
-  bold: "DMBold",
+  regular: require("../assets/fonts/DMSans-Regular.ttf"),
+  medium: require("../assets/fonts/DMSans-Medium.ttf"),
+  bold: require("../assets/fonts/DMSans-Bold.ttf"),
 };
 
 const SIZES = {
