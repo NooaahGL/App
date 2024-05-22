@@ -26,7 +26,11 @@ const AuthenticationScreen = () => {
         const userDocRef = doc(db, 'users', credential.user.uid);
           await setDoc(userDocRef, {
             uid: credential.user.uid,
-            email: email
+            email: email,
+            name: "",
+            surname: "",
+            dob: "",
+            photoURL: ""
           });
   
           //Create a playlists collection with one playlist for the new user
