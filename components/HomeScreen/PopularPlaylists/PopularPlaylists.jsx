@@ -6,6 +6,7 @@ import { COLORS, SIZES } from '../../../constants'
 import PlaylistsCards from '../PlaylistsCards/PlaylistsCards'
 import { useTranslation } from 'react-i18next';
 
+import Track from '../../../spotifyApi/Track.js'
 
 const PopularPlaylists = () => {
 
@@ -29,12 +30,12 @@ const PopularPlaylists = () => {
           <Text>{t('An_error_has_ocurred')}</Text>
         ) : (
           <FlatList
-            data = {[ 1, 2, 3, 4, 5, 6, 7, 8, 9]}
+            data = {[ "Top 50: Global", "Top 50: España", "Los 50 más virales: Global", "Los 50 más virales: España", "Fresh Finds España", "Novedades Viernes España"]}
             renderItem={ ( {item} ) => (
               <PlaylistsCards
-                item = {item}
+                item = {Track.searchPlaylist(item)}
               >
-              hola1yadios
+              {item}
               </PlaylistsCards>
             )}
             keyExtractor = {item => item?.song_id}

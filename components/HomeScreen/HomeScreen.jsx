@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, ScrollView, SafeAreaView, TouchableOpacity, Text, Dimensions, StyleSheet, Image } from 'react-native';
+import React, {useEffect} from 'react';
+import { View, ScrollView, SafeAreaView, TouchableOpacity, Text, Dimensions, StyleSheet, Image, BackHandler } from 'react-native';
 import { SIZES, COLORS } from "../../constants";
 import add from '../../assets/icons/add.png'
 import { useNavigation } from '@react-navigation/native'; 
@@ -8,6 +8,7 @@ import Welcome from "../HomeScreen/Welcome/Welcome";
 import PopularPlaylists from './PopularPlaylists/PopularPlaylists';
 import MyLists from './MyPlaylists/MyPlaylists';
 import Track from '../../spotifyApi/Track.js';
+import TrackList from './TracksList/TrackList.jsx'
 
 const { width } = Dimensions.get('window');
 
@@ -17,6 +18,16 @@ const HomeScreen = () => {
   const handleAddPlaylist = () => {
     navigation.navigate('AddListScreen');
   };
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      // Prevent going back to AuthenticationScreen
+      return true;
+    });
+
+    return () => backHandler.remove();
+  }, []);
+
 
   //Track tests
   const trackTest = async () => {
@@ -35,7 +46,7 @@ const HomeScreen = () => {
     const playlistInfoString = playlist.map(track => track.getName()).join("\n\n");
     console.log(playlistInfoString);
   }
-  trackTest();
+  //trackTest();
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
@@ -44,6 +55,7 @@ const HomeScreen = () => {
           <Welcome />
           <PopularPlaylists />
           <MyLists />
+          <TrackList>EL ÚLTIMO BAILE</TrackList>
         </View>
       </ScrollView>
 

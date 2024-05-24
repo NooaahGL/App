@@ -125,7 +125,23 @@ class Track {
             console.error('Error creating playlist:', error.message);
             return [];
         }
-      }
+    }
+
+    //Returns the tracks id of the 50 first tracks returned in the search
+    //Returns [] if error
+    static async searchTracks(search) {
+        var tracks = [];
+        try {
+            //console.log("Search for " + search);
+            const response = await fetch(`https://api.spotify.com/v1/search?q=${search}&type=track&market=US&limit=50`, this.searchParameters);
+            const data = await response.json();
+            tracks = data.tracks.items.map(item => item.id);
+            //console.log("Playlist ID:", playlistID);
+        } catch (error) {
+            console.error('Error searching Playlist:', error.message);
+        }
+        return tracks;
+    }
 
 }
 
