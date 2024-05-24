@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import { View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import { View, StyleSheet, Text, TouchableWithoutFeedback } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from '../components/HomeScreen/HomeScreen';
@@ -8,10 +8,12 @@ import AddListScreen from '../components/AddListScreen/AddListScreen';
 import CustomUserDataScreen from '../components/CustomUserDataScreen/CustomUserDataScreen';
 import SettingsScreen from '../components/SettingsScreen/SettingsScreen';
 import ScreenHeaderBtn from "../components/ScreenHeaderBtn/ScreenHeaderBtn";
-import { SIZES, COLORS, icons, images } from "../constants";
+import { SIZES, COLORS, images } from "../constants";
 import LeftMenu from '../components/LeftMenu/LeftMenu';
 import RightMenu from '../components/RightMenu/RightMenu';
 import { useAuth } from '../context/AuthContext';
+import * as Location from 'expo-location';
+import Flag from 'react-native-flags';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,12 +21,43 @@ const Navigation = () => {
 
   const [isLeftMenuVisible, setLeftMenuVisible] = useState(false);
   const [isRightMenuVisible, setRightMenuVisible] = useState(false);
+  const [location, setLocation] = useState(null);
+  const [cityAndCountry, setCityAndCountry] = useState(null);
+  const [countryCode, setCountryCode] = useState(null);
   const { profileImage } = useAuth();
 
   const handleOutsidePress = () => {
     setLeftMenuVisible(false);
     setRightMenuVisible(false);
   };
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        console.error('Permiso de ubicación denegado');
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+
+      // Obtener la dirección actual
+      const address = await Location.reverseGeocodeAsync({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      });
+      if (address && address.length > 0) {
+        const city = address[0].city;
+        const country = address[0].country;
+        setCityAndCountry(`${city}, ${country}`);
+        
+        // Obtener el código del país
+        const countryCode = address[0].isoCountryCode;
+        setCountryCode(countryCode);
+      }
+    })();
+  }, []);
 
   return (
     <TouchableWithoutFeedback onPress={handleOutsidePress}>
@@ -37,15 +70,6 @@ const Navigation = () => {
                 headerStyle: { backgroundColor: COLORS.lightWhite },
                 headerShadowVisible: false,
                 headerLeft: () => (
-                  <ScreenHeaderBtn iconUrl={icons.menu} dimension="60%"
-                    onPress={(e) => {
-                      e.stopPropagation();
-                      setLeftMenuVisible(!isLeftMenuVisible);
-                      setRightMenuVisible(false);
-                    }}
-                  />
-                ),
-                headerRight: () => (
                   <ScreenHeaderBtn iconUrl={profileImage ? { uri: profileImage } : images.profile} dimension="100%"
                     onPress={(e) => {
                       e.stopPropagation();
@@ -53,6 +77,14 @@ const Navigation = () => {
                       setLeftMenuVisible(false);
                     }}
                   />
+                ),
+                headerRight: () => (
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={{ marginRight: SIZES.medium }}>
+                      {cityAndCountry ? `${cityAndCountry}` : 'Ubicación no disponible'}
+                    </Text>
+                    {countryCode && <Flag code={countryCode} size={32} style={{ marginRight: 5 }} />}
+                  </View>
                 ),
                 headerTitle: '',
               }}
@@ -70,34 +102,3 @@ const Navigation = () => {
 };
 
 export default Navigation;
-
-const styles = StyleSheet.create({
-  leftMenuContainer: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    bottom: 0,
-    width: '80%',
-    backgroundColor: 'white',
-    zIndex: 1,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    elevation: 5,
-  },
-  rightMenuContainer: {
-    position: 'absolute',
-    right: 0,
-    top: 0,
-    bottom: 0,
-    width: '80%',
-    backgroundColor: 'white',
-    zIndex: 1,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    elevation: 5,
-  },
-});
