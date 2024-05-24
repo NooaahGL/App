@@ -3,10 +3,11 @@ import { View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from '../components/HomeScreen/HomeScreen';
-import AuthenticationScreen from '../components/AuthenticationScreen/AuthenticationScreen'
+import AuthenticationScreen from '../components/AuthenticationScreen/AuthenticationScreen';
 import AddListScreen from '../components/AddListScreen/AddListScreen';
-import CustomUserDataScreen from '../components/CustomUserDataScreen/CustomUserDataScreen'
-import ScreenHeaderBtn from "../components/ScreenHeaderBtn/ScreenHeaderBtn"
+import CustomUserDataScreen from '../components/CustomUserDataScreen/CustomUserDataScreen';
+import SettingsScreen from '../components/SettingsScreen/SettingsScreen';
+import ScreenHeaderBtn from "../components/ScreenHeaderBtn/ScreenHeaderBtn";
 import { SIZES, COLORS, icons, images } from "../constants";
 import LeftMenu from '../components/LeftMenu/LeftMenu';
 import RightMenu from '../components/RightMenu/RightMenu';
@@ -58,6 +59,7 @@ const Navigation = () => {
             />
             <Stack.Screen name="AddListScreen" component={AddListScreen}/>
             <Stack.Screen name="Custom User Data" component={CustomUserDataScreen}/>
+            <Stack.Screen name="Settings" component={SettingsScreen}/>
           </Stack.Navigator>
           <LeftMenu visible={isLeftMenuVisible} />
           <RightMenu visible={isRightMenuVisible} onClose={handleOutsidePress} />

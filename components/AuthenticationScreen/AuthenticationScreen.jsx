@@ -5,6 +5,7 @@ import { auth, db } from '../../auth';
 import { useNavigation } from '@react-navigation/native';
 import { collection, addDoc, getDocs, doc, setDoc } from '@firebase/firestore';
 import {addPlaylist, addSongToPlaylist} from '../../playlistFunctions/playlistFunctions.js'
+import { useTranslation } from 'react-i18next';
 
 
 const AuthenticationScreen = () => {
@@ -12,6 +13,7 @@ const AuthenticationScreen = () => {
   const [password, setPassword] = useState('');
   const [isLogin, setIsLogin] = useState(true);
   const navigation = useNavigation();
+  const { t } = useTranslation();
 
   const handleAuthentication = async () => {
     try {

@@ -1,0 +1,27 @@
+{
+    "language": {
+        "select": "Seleccionar idioma"
+    },
+    "welcome": "¡Bienvenido!",
+    "enjoy_your_favorite_music": "Disfruta de tu música favorita",
+    "search_for_any_song": "Buscar cualquier canción",
+    "My_Lists": "Mis Listas",
+    "An_error_has_ocurred": "Ha ocurrido un error",
+    "Popular_playlists": "Listas populares",
+    "Show_all": "Mostrar todo",
+    "Delete_Account": "Eliminar Cuenta",
+    "Custom_User_Data": "Personalizar datos de usuario",
+    "Settings": "Ajustes",
+    "Logout": "Cerrar Sesión",
+    "Upload_photo": "Subir foto",
+    "Name": "Nombre",
+    "Surname": "Apellidos",
+    "DoB": "Fecha de nacimiento",
+    "New_Password": "Nueva contraseña",
+    "Confirm_New_Password": "Confirma la contraseña",
+    "Update_profile": "Guardar cambios",
+    "Enter_new_List_name": "Introduzca el nombre de la lista",
+    "Playlist_name": "Nombre de la lista",
+    "Add_Playlist": "Añadir Lista"
+  }
+  

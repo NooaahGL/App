@@ -7,7 +7,8 @@ import { useNavigation } from '@react-navigation/native';
 import Welcome from "../HomeScreen/Welcome/Welcome";
 import PopularPlaylists from './PopularPlaylists/PopularPlaylists';
 import MyLists from './MyPlaylists/MyPlaylists';
-import Track from '../../spotifyApi/Track.js'
+import Track from '../../spotifyApi/Track.js';
+
 const { width } = Dimensions.get('window');
 
 const HomeScreen = () => {

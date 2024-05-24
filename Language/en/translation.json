@@ -1,0 +1,29 @@
+
+{
+    "language": {
+      "select": "Select Language"
+    },
+    "welcome": "Welcome!",
+    "enjoy_your_favorite_music": "Enjoy your favorite music",
+    "search_for_any_song": "Search for any song",
+    "My_Lists": "My Lists",
+    "An_error_has_ocurred": "An error has ocurred",
+    "Popular_playlists": "Popular playlists",
+    "Show_all": "Show all",
+    "Delete_Account": "Delete Account",
+    "Custom_User_Data": "Custom User Data",
+    "Settings": "Settings",
+    "Logout": "Logout",
+    "Upload_photo": "Upload photo",
+    "Name": "Name",
+    "Surname": "Surname",
+    "DoB": "Date of birth",
+    "New_Password": "New Password",
+    "Confirm_New_Password": "Confirm New Password",
+    "Update_profile": "Update profile",
+    "Enter_new_List_name": "Enter new List name",
+    "Playlist_name": "Playlist name",
+    "Add_Playlist": "Add Playlist"
+
+}
+  

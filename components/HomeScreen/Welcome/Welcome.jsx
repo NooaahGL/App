@@ -1,23 +1,30 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, FlatList, TouchableOpacity, Image } from 'react-native';
+import React from 'react';
+import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import styles from './welcome.styles';
 import { icons, SIZES } from '../../../constants';
 
 const Welcome = () => {
+  const { t } = useTranslation();
 
   return (
     <View>
-      <View styles={styles.container}>
-        <Text style={styles.userName}>Welcome</Text>
-        <Text style={styles.welcomeMessage}>Enjoy your favorite music!</Text>
+      <View style={styles.container}>
+        <Text style={styles.userName}>{t('welcome')}</Text>
+        <Text style={styles.welcomeMessage}>{t('enjoy_your_favorite_music')}</Text>
       </View> 
 
       <View style={styles.searchContainer}>
         <View style={styles.searchWrapper}>
-          <TextInput style={styles.searchInput} value='' onChange={()=>{}} placeholder='Search for any song'/>
+          <TextInput 
+            style={styles.searchInput} 
+            value='' 
+            onChange={() => {}} 
+            placeholder={t('search_for_any_song')} 
+          />
         </View>
 
-        <TouchableOpacity style={styles.searchBtn} onPress={()=>{}}>
+        <TouchableOpacity style={styles.searchBtn} onPress={() => {}}>
           <Image
             source={icons.search}
             resizeMode='contain'
@@ -25,10 +32,8 @@ const Welcome = () => {
           />
         </TouchableOpacity>
       </View>
-      
     </View>
   );
 }
 
 export default Welcome;
-

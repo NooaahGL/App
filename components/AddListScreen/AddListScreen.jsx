@@ -3,11 +3,13 @@ import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import {SIZES, COLORS} from '../../constants'
 import { addPlaylist } from '../../playlistFunctions/playlistFunctions';
 import { useAuth } from '../../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 const AddListScreen = () => {
 
   const { user } = useAuth(); 
   const [playlistName, setPlaylistName] = useState('');
+  const { t } = useTranslation();
 
   const handleAddPlaylist = async () => {
     try {
@@ -21,14 +23,14 @@ const AddListScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Enter new List name</Text>
+      <Text style={styles.title}>{t('Enter_new_List_name')}</Text>
       <TextInput
         style={styles.input}
-        placeholder="Playlist name"
+        placeholder={t("Playlist_name")}
         value={playlistName}
         onChangeText={setPlaylistName}
       />
-      <Button style={styles.Btn} title="Add Playlist" onPress={handleAddPlaylist} />
+      <Button style={styles.Btn} title={t("Add_Playlist")} onPress={handleAddPlaylist} />
     </View>
   );
 };

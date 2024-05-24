@@ -6,6 +6,8 @@ import { COLORS, SIZES } from '../../../constants'
 import PlaylistsCards from '../PlaylistsCards/PlaylistsCards'
 import {getAllPlaylist, getAllPlaylistNames, getAllPlaylistId} from '../../../playlistFunctions/playlistFunctions.js'
 import { useAuth } from '../../../context/AuthContext.js';
+import { useTranslation } from 'react-i18next';
+
 
 const MyLists = () => {
 
@@ -13,6 +15,7 @@ const MyLists = () => {
   const error = false;
   
   const { user } = useAuth(); 
+  const { t } = useTranslation();
 
   const [playlists, setPlaylists] = useState([]);
 /*
@@ -36,9 +39,9 @@ const MyLists = () => {
   return (
     <View style={styles.container}>
     <View style={styles.header}>
-      <Text style={styles.headerTitle}>My Lists</Text>
+      <Text style={styles.headerTitle}>{t('My_Lists')}</Text>
       <TouchableOpacity>
-        <Text>Show all</Text>
+        <Text>{t('Show_all')}</Text>
       </TouchableOpacity>
     </View>
 
@@ -46,7 +49,7 @@ const MyLists = () => {
       { isLoading ? (
         <ActivityIndicator size="large" colors={COLORS.primary} />
       ) : error ? (
-        <Text>An error has ocurred</Text>
+        <Text>{t('An_error_has_ocurred')}</Text>
       ) : (
         <FlatList
           data = {playlists}

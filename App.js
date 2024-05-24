@@ -1,4 +1,3 @@
-import { StyleSheet, Text, View } from 'react-native';
 import Navigation from './navigation/Navigation';
 import { AuthProvider } from './context/AuthContext'
 import { fetchAccessToken } from './authSpotify';
