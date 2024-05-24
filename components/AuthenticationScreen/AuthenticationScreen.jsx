@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import {COLORS, SIZES} from '../../constants';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from '@firebase/auth';
 import { auth, db } from '../../auth';
 import { useNavigation } from '@react-navigation/native';
@@ -64,8 +65,10 @@ const AuthenticationScreen = () => {
           placeholder="Password"
           secureTextEntry
         />
-        <View style={styles.buttonContainer}>
-          <Button title={isLogin ? 'Enter' : 'Create an account'} onPress={handleAuthentication} color="#3498db" />
+        <View >
+          <TouchableOpacity>
+            <Button color={COLORS.tertiary} title={isLogin ? 'Enter' : 'Create an account'} onPress={handleAuthentication}  />
+          </TouchableOpacity>
         </View>
         <Text style={styles.toggleText} onPress={() => setIsLogin(!isLogin)}>
           {isLogin ? 'Need an account? Sign Up' : 'Already have an account? Sign In'}
@@ -76,53 +79,42 @@ const AuthenticationScreen = () => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flexGrow: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 16,
-        backgroundColor: '#f0f0f0',
-      },
-      authContainer: {
-        width: '80%',
-        maxWidth: 400,
-        backgroundColor: '#fff',
-        padding: 16,
-        borderRadius: 8,
-        elevation: 3,
-      },
-      title: {
-        fontSize: 24,
-        marginBottom: 16,
-        textAlign: 'center',
-      },
-      input: {
-        height: 40,
-        borderColor: '#ddd',
-        borderWidth: 1,
-        marginBottom: 16,
-        padding: 8,
-        borderRadius: 4,
-      },
-      buttonContainer: {
-        marginBottom: 16,
-      },
-      toggleText: {
-        color: '#3498db',
-        textAlign: 'center',
-      },
-      bottomContainer: {
-        marginTop: 20,
-      },
-      emailText: {
-        fontSize: 18,
-        textAlign: 'center',
-        marginBottom: 20,
-      },
-      additionalText: {
-        textAlign: 'center',
-        color: '#777',
-      }
+  container: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: SIZES.medium, // Utiliza el tamaño de padding común
+    backgroundColor: COLORS.lightWhite, // Utiliza el color de fondo común
+  },
+  authContainer: {
+    width: '80%',
+    maxWidth: 400,
+    backgroundColor: COLORS.white, // Utiliza el color de fondo común
+    padding: SIZES.medium, // Utiliza el tamaño de padding común
+    borderRadius: SIZES.large, // Utiliza el tamaño de border radius común
+    elevation: 3,
+  },
+  title: {
+    fontSize: 22, // Utiliza el tamaño de fuente común
+    marginBottom: SIZES.medium, // Utiliza el tamaño de margen común
+    textAlign: 'center',
+  },
+  input: {
+    height: 40,
+    borderColor: COLORS.lightGray, // Utiliza el color de borde común
+    borderWidth: 1,
+    marginBottom: SIZES.medium, // Utiliza el tamaño de margen común
+    padding: SIZES.small, // Utiliza el tamaño de padding común
+    borderRadius: SIZES.small, // Utiliza el tamaño de border radius común
+  },
+  buttonContainer: {
+    marginBottom: SIZES.medium, // Utiliza el tamaño de margen común
+    backgroundColor: "red",
+  },
+  toggleText: {
+    color: COLORS.primary, // Utiliza el color de los estilos comunes
+    textAlign: 'center',
+  },
 });
 
 export default AuthenticationScreen;
