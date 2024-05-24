@@ -34,7 +34,7 @@ const PopularPlaylists = () => {
               <PlaylistsCards
                 item = {item}
               >
-              hola1
+              hola1yadios
               </PlaylistsCards>
             )}
             keyExtractor = {item => item?.song_id}

@@ -10,10 +10,9 @@ import SettingsScreen from '../components/SettingsScreen/SettingsScreen';
 import ScreenHeaderBtn from "../components/ScreenHeaderBtn/ScreenHeaderBtn";
 import { SIZES, COLORS, images } from "../constants";
 import LeftMenu from '../components/LeftMenu/LeftMenu';
-import RightMenu from '../components/RightMenu/RightMenu';
 import { useAuth } from '../context/AuthContext';
-import * as Location from 'expo-location';
 import Flag from 'react-native-flags';
+import {useLocation} from '../Location/Location';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,43 +20,14 @@ const Navigation = () => {
 
   const [isLeftMenuVisible, setLeftMenuVisible] = useState(false);
   const [isRightMenuVisible, setRightMenuVisible] = useState(false);
-  const [location, setLocation] = useState(null);
-  const [cityAndCountry, setCityAndCountry] = useState(null);
-  const [countryCode, setCountryCode] = useState(null);
+  
+  const {cityAndCountry, countryCode} = useLocation();
   const { profileImage } = useAuth();
 
   const handleOutsidePress = () => {
     setLeftMenuVisible(false);
     setRightMenuVisible(false);
   };
-
-  useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        console.error('Permiso de ubicación denegado');
-        return;
-      }
-
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
-
-      // Obtener la dirección actual
-      const address = await Location.reverseGeocodeAsync({
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-      });
-      if (address && address.length > 0) {
-        const city = address[0].city;
-        const country = address[0].country;
-        setCityAndCountry(`${city}, ${country}`);
-        
-        // Obtener el código del país
-        const countryCode = address[0].isoCountryCode;
-        setCountryCode(countryCode);
-      }
-    })();
-  }, []);
 
   return (
     <TouchableWithoutFeedback onPress={handleOutsidePress}>
@@ -73,8 +43,8 @@ const Navigation = () => {
                   <ScreenHeaderBtn iconUrl={profileImage ? { uri: profileImage } : images.profile} dimension="100%"
                     onPress={(e) => {
                       e.stopPropagation();
-                      setRightMenuVisible(!isRightMenuVisible);
-                      setLeftMenuVisible(false);
+                      setLeftMenuVisible(!isLeftMenuVisible);
+                      setRightMenuVisible(false);
                     }}
                   />
                 ),
@@ -93,8 +63,7 @@ const Navigation = () => {
             <Stack.Screen name="Custom User Data" component={CustomUserDataScreen}/>
             <Stack.Screen name="Settings" component={SettingsScreen}/>
           </Stack.Navigator>
-          <LeftMenu visible={isLeftMenuVisible} />
-          <RightMenu visible={isRightMenuVisible} onClose={handleOutsidePress} />
+          <LeftMenu visible={isLeftMenuVisible} onClose={handleOutsidePress} />
         </NavigationContainer>
       </View>
     </TouchableWithoutFeedback>
@@ -102,3 +71,34 @@ const Navigation = () => {
 };
 
 export default Navigation;
+
+const styles = StyleSheet.create({
+  leftMenuContainer: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    bottom: 0,
+    width: '80%',
+    backgroundColor: 'white',
+    zIndex: 1,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5,
+  },
+  rightMenuContainer: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    bottom: 0,
+    width: '80%',
+    backgroundColor: 'white',
+    zIndex: 1,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5,
+  },
+});
