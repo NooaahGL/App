@@ -5,6 +5,7 @@ export function useLocation() {
   const [location, setLocation] = useState(null);
   const [cityAndCountry, setCityAndCountry] = useState(null);
   const [countryCode, setCountryCode] = useState(null);
+  const [countryName, setCountry] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -26,6 +27,7 @@ export function useLocation() {
         const city = address[0].city;
         const country = address[0].country;
         setCityAndCountry(`${city}, ${country}`);
+        setCountry(country);
         // Obtener el código del país
         const countryCode = address[0].isoCountryCode;
         setCountryCode(countryCode);
@@ -33,5 +35,5 @@ export function useLocation() {
     })();
   }, []);
 
-  return { cityAndCountry, countryCode };
+  return { cityAndCountry, countryCode, countryName };
 }

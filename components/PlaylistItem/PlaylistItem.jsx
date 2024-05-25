@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react'
-import {Image, View, Text, StyleSheet, ActivityIndicator} from 'react-native'
-import Track from "./../../../spotifyApi/Track.js"
-import {getPlaylistInfoById} from "./../../../playlistFunctions/playlistFunctions.js"
-import { useAuth } from '../../../context/AuthContext.js'
+import {Image, View, Text, StyleSheet} from 'react-native'
+import Track from "./../../spotifyApi/Track.js"
+import {getPlaylistInfoById} from "./../../playlistFunctions/playlistFunctions.js"
+import { useAuth } from '../../context/AuthContext.js'
 
 //For spotify Playlists
 const PopularPlaylistItemHeader = ( {name} ) =>{

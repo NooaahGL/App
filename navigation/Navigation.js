@@ -2,12 +2,18 @@ import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, Text, TouchableWithoutFeedback } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 import HomeScreen from '../components/HomeScreen/HomeScreen';
 import AuthenticationScreen from '../components/AuthenticationScreen/AuthenticationScreen';
 import AddListScreen from '../components/AddListScreen/AddListScreen';
 import CustomUserDataScreen from '../components/CustomUserDataScreen/CustomUserDataScreen';
 import SettingsScreen from '../components/SettingsScreen/SettingsScreen';
+import MyPlaylistsExtended from '../components/MyPlaylists/MyPlaylistsExtended';
+import PlaylistTracks from '../components/PlaylistTracks/PlaylistTracks';
+import SearchSongScreen from '../components/SearchSongScreen/SearchSongScreen';
+import PopularPlaylistsTracks from '../components/HomeScreen/PopularPlaylists/PopularPlaylistsTracks';
 import ScreenHeaderBtn from "../components/ScreenHeaderBtn/ScreenHeaderBtn";
+
 import { SIZES, COLORS, images } from "../constants";
 import LeftMenu from '../components/LeftMenu/LeftMenu';
 import { useAuth } from '../context/AuthContext';
@@ -62,6 +68,10 @@ const Navigation = () => {
             <Stack.Screen name="AddListScreen" component={AddListScreen}/>
             <Stack.Screen name="Custom User Data" component={CustomUserDataScreen}/>
             <Stack.Screen name="Settings" component={SettingsScreen}/>
+            <Stack.Screen name='All my Playlists' component={MyPlaylistsExtended}/>
+            <Stack.Screen name="Playlist Tracks" component={PlaylistTracks}/>
+            <Stack.Screen name='Search Song' component={SearchSongScreen} />
+            <Stack.Screen name='Popular Playlists Tracks' component={PopularPlaylistsTracks} />
           </Stack.Navigator>
           <LeftMenu visible={isLeftMenuVisible} onClose={handleOutsidePress} />
         </NavigationContainer>

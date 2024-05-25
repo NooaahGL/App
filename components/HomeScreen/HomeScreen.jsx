@@ -5,12 +5,11 @@ import add from '../../assets/icons/add.png'
 import { useNavigation } from '@react-navigation/native'; 
 
 import Welcome from "../HomeScreen/Welcome/Welcome";
-import {PopularPlaylists, MyLists} from './PlaylistList/PlaylistList.jsx';
+import PopularPlaylists from './PopularPlaylists/PopularPlaylists.jsx';
+import MyPlaylists from '../MyPlaylists/MyPlaylists.jsx'
 import Track from '../../spotifyApi/Track.js';
 import {TrackListByName} from './TracksList/TrackList.jsx'
 import {TrackMyListById} from './TracksList/TrackList.jsx'
-
-const { width } = Dimensions.get('window');
 
 const HomeScreen = () => {
 
@@ -54,11 +53,7 @@ const HomeScreen = () => {
         <View style={{ flex: 1, padding: SIZES.medium }}>
           <Welcome />
           <PopularPlaylists />
-          <MyLists />
-          <Text>My Playlist</Text>
-          <TrackMyListById>JB0K3PNINAgj7Y5uDmEt</TrackMyListById>
-          <Text>Spotify Playlist</Text>
-          <TrackListByName>YHLQMDLG</TrackListByName>
+          <MyPlaylists />
         </View>
       </ScrollView>
 
