@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: SIZES.large,
     color: COLORS.primary,
+    marginBottom: SIZES.small,
   },
   headerBtn: {
     fontSize: SIZES.medium,

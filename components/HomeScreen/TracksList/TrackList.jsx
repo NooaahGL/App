@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { View, Text, FlatList} from "react-native"
 import {TrackItem, TrackItemAdd, TrackItemDelete} from "./TrackItem.jsx"
 import Track from "./../../../spotifyApi/Track.js"
-import {createPlaylist} from "./../../../playlistFunctions/playlistFunctions.js"
+import {createPlaylist, deleteSongFromPlaylist} from "./../../../playlistFunctions/playlistFunctions.js"
 import { useAuth } from "../../../context/AuthContext.js"
 
 //For spotify playlist
@@ -99,7 +99,6 @@ const TrackMyListById = ({children}) => {
 const TrackMyListByIdDelete = ({children}) => {
     
     const { user } = useAuth();
-
     const [playlist, setPlaylist] = useState([])
 
     const fetchPlaylist = async () =>{
@@ -115,12 +114,21 @@ const TrackMyListByIdDelete = ({children}) => {
         fetchPlaylist()
     }, [])
 
+    const handleDelete = async (trackId) => {
+        // Aquí debes implementar la lógica de eliminación en tu backend
+        await deleteSongFromPlaylist(user, children, trackId);
+        setPlaylist((prevPlaylist) => prevPlaylist.filter(track => track.id !== trackId));
+    };
+
     return(
         <FlatList 
             data={playlist}
             ItemSeparatorComponent={()=> <Text></Text>}
-            renderItem={({item: repo}) =>(
-                <TrackItemDelete {...repo}/>
+            renderItem={({item: track}) =>(
+                <TrackItemDelete 
+                {...track}
+                onDelete={() => handleDelete(track.id)}
+                />
             )}
         />
     )

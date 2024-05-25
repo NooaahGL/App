@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import {SIZES, COLORS} from '../../constants'
 import { addPlaylist } from '../../playlistFunctions/playlistFunctions';
 import { useAuth } from '../../context/AuthContext';
@@ -10,14 +11,14 @@ const AddListScreen = () => {
 
   const { user } = useAuth(); 
   const [playlistName, setPlaylistName] = useState('');
+  const navigation = useNavigation();
   const { t } = useTranslation();
 
   const handleAddPlaylist = async () => {
     try {
       const playlistId = await addPlaylist(user, playlistName);
       console.log(playlistId);
-      addSongToPlaylist(user, playlistId, "5OKy5809rOuZGRiCyWwfZS")
-      // Aquí podrías navegar a otra pantalla o hacer alguna otra acción después de agregar la playlist
+      navigation.navigate('Search Song', { user: user, playlistId: playlistId });
     } catch (error) {
       console.error('Error adding playlist in AddPlaylistScreen:', error.message);
     }

@@ -29,10 +29,8 @@ const SearchSong = ({    }) => {
   };
 
   const handleSongSelection = async (selectedSong) => {
-    // Aquí puedes agregar lógica para agregar la canción a la lista de reproducción
-    // Por ahora, solo pasaremos la canción seleccionada a PlaylistTracks
     await addSongToPlaylist(user, playlistId, selectedSong.id)
-    navigation.navigate('Playlist Tracks', { selectedSong: selectedSong });
+    navigation.navigate('HomeScreen');
   };
 
   return (

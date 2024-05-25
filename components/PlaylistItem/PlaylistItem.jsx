@@ -30,7 +30,7 @@ const PopularPlaylistItemHeader = ( {name} ) =>{
                 <Image style={styles.image} source={{uri: playlistInfo.img}} />
             </View>
             <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                <Text>Name: {playlistInfo.name}</Text>
+                <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{playlistInfo.name}</Text>
             </View>
         </View>
     )
@@ -71,7 +71,7 @@ const MyPlaylistItemHeader = ( props ) =>{
                 <Image style={styles.image} source={{uri: playlistInfo.img}} />
             </View>
             <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                <Text>Name: {playlistInfo.name}</Text>
+                <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{playlistInfo.name}</Text>
             </View>
         </View>
     )

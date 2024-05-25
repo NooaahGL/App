@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   trackImage: {
     width: 50,
     height: 50,
-    borderRadius: 25,
+    borderRadius: 4,
   },
   trackInfo: {
     marginLeft: 10,

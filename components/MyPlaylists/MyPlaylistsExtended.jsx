@@ -50,7 +50,7 @@ const MyPlaylistsExtended = () => {
           <FlatList
             data={playlists}
             renderItem={({ item }) => (
-              <TouchableOpacity onPress={() => navigation.navigate('Playlist Tracks', { user: user, playlistId: item.id })}>
+              <TouchableOpacity onPress={() => navigation.navigate('Playlist Tracks', { user: user, playlistId: item.id, playlistName: item.name })}>
                 <MyPlaylistItem {...item} />
               </TouchableOpacity>
             )}

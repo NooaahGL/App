@@ -1,4 +1,4 @@
-import { collection, addDoc, getDocs, getDoc,  doc, setDoc } from '@firebase/firestore';
+import { collection, addDoc, getDocs, getDoc,  doc, setDoc, deleteDoc } from '@firebase/firestore';
 import {db} from '../auth.js'
 import Track from '../spotifyApi/Track.js'
 
@@ -72,6 +72,16 @@ const addSongToPlaylist = async (user, playlistId, trackId) => {
     console.log('Song added to playlist successfully!');
   } catch (error) {
     console.error('Error adding song to playlist:', error.message);
+  }
+};
+
+const deleteSongFromPlaylist = async (user, playlistId, trackId) => {
+  try {
+    const songDocRef = doc(db, 'users', user.uid, 'playlists', playlistId, 'songs', trackId);
+    await deleteDoc(songDocRef);
+    console.log('Song deleted from playlist successfully!');
+  } catch (error) {
+    console.error('Error deleting song from playlist:', error.message);
   }
 };
 
@@ -168,6 +178,7 @@ const createPlaylist = async (user, playlistId) => {
 export {
   addPlaylist,
   addSongToPlaylist,
+  deleteSongFromPlaylist,
   getAllPlaylistId,
   getAllPlaylistNames,
   getAllPlaylist,

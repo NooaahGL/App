@@ -8,8 +8,8 @@ import Welcome from "../HomeScreen/Welcome/Welcome";
 import PopularPlaylists from './PopularPlaylists/PopularPlaylists.jsx';
 import MyPlaylists from '../MyPlaylists/MyPlaylists.jsx'
 import Track from '../../spotifyApi/Track.js';
-import {TrackListByName} from './TracksList/TrackList.jsx'
-import {TrackMyListById} from './TracksList/TrackList.jsx'
+
+import { deleteSongFromPlaylist } from '../../playlistFunctions/playlistFunctions.js';
 
 const HomeScreen = () => {
 
@@ -30,22 +30,12 @@ const HomeScreen = () => {
 
   //Track tests
   const trackTest = async () => {
-    // Perform actions using the access token
-    const song = new Track('7MVIfkyzuUmQ716j8U7yGR');
-    // Fetch track details
-    await song.fetchTrackDetails();
-    console.log(song.trackInfo());
-    // Search for album
-    const playlistID = await Track.searchPlaylist("Top 50: España");
-    const playlist = await Track.createPlaylist(playlistID);
-    /*playlist.forEach(track => {
-      console.log(track.playlistInfo())
-    });*/
-    // Construct track info string
-    const playlistInfoString = playlist.map(track => track.getName()).join("\n\n");
-    console.log(playlistInfoString);
+    await deleteSongFromPlaylist('qNt0D8d72ChJUaZ0CE2TcGqX07l1','3b1zY6pELeIBbOj9RTuz','6Ec5LeRzkisa5KJtwLfOoW');
   }
   //trackTest();
+
+
+
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>

@@ -32,7 +32,7 @@ const PopularPlaylistsTracks = ({ route }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>{`Tracks de la playlist "${playlistName}"`}</Text>
+      <Text style={styles.header}>{`"${playlistName}" Tracks`}</Text>
       <FlatList
         data={tracks}
         renderItem={({ item }) => (
@@ -67,20 +67,20 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   albumImage: {
-    width: 100,
-    height: 100,
+    width: 50,
+    height: 50,
     marginRight: 20,
-    borderRadius: 10,
+    borderRadius: 4,
   },
   trackInfo: {
     flex: 1,
   },
   trackName: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
   },
   albumName: {
-    fontSize: 16,
+    fontSize: 14,
   },
   artistName: {
     fontSize: 14,
