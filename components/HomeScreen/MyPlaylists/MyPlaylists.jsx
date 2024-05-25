@@ -8,6 +8,8 @@ import {getAllPlaylist, getAllPlaylistNames, getAllPlaylistId} from '../../../pl
 import { useAuth } from '../../../context/AuthContext.js';
 import { useTranslation } from 'react-i18next';
 
+import {MyPlaylistItem} from '../PlaylistList/PlaylistItem.jsx'
+
 
 const MyLists = () => {
 
@@ -27,10 +29,10 @@ const MyLists = () => {
 */
   useEffect(() => {
     const fetchPlaylists = async () => {
-      await getAllPlaylistId(user);
-      await getAllPlaylistNames(user);
       const fetchedPlaylists = await getAllPlaylist(user);
-      setPlaylists(fetchedPlaylists);
+      const slicedData = fetchedPlaylists.slice(0, 3);
+
+      setPlaylists(slicedData);
     };
 
     if (user) fetchPlaylists();
@@ -54,14 +56,10 @@ const MyLists = () => {
         <FlatList
           data = {playlists}
           renderItem={ ( {item} ) => (
-            <PlaylistsCards
-              item = {item}
-            >
-            {item.name}
-            </PlaylistsCards>
+            <MyPlaylistItem {...item}/>
           )}
           contentContainerStyle = {{ columnGap: SIZES.medium}}
-          horizontal
+          
         />
       )}
     </View>

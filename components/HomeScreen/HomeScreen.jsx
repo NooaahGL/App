@@ -8,7 +8,8 @@ import Welcome from "../HomeScreen/Welcome/Welcome";
 import PopularPlaylists from './PopularPlaylists/PopularPlaylists';
 import MyLists from './MyPlaylists/MyPlaylists';
 import Track from '../../spotifyApi/Track.js';
-import TrackList from './TracksList/TrackList.jsx'
+import {TrackListByName} from './TracksList/TrackList.jsx'
+import {TrackMyListById} from './TracksList/TrackList.jsx'
 
 const { width } = Dimensions.get('window');
 
@@ -55,7 +56,10 @@ const HomeScreen = () => {
           <Welcome />
           <PopularPlaylists />
           <MyLists />
-          <TrackList>EL ÚLTIMO BAILE</TrackList>
+          <Text>My Playlist</Text>
+          <TrackMyListById>JB0K3PNINAgj7Y5uDmEt</TrackMyListById>
+          <Text>Spotify Playlist</Text>
+          <TrackListByName>YHLQMDLG</TrackListByName>
         </View>
       </ScrollView>
 

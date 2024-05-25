@@ -84,6 +84,20 @@ class Track {
         }
     }
 
+    // Get track details and return as JSON
+    getTrackDetailsAsJson() {
+        return {
+            id: this.id,
+            name: this.name,
+            album: this.album,
+            albumId: this.albumId,
+            albumImg: this.albumImg,
+            artist: this.artist,
+            artistId: this.artistId,
+            duration: this.duration
+        };
+    }
+
     //Returns the Playlist id of the first Playlist returned in the search
     //Returns 0 if error
     static async searchPlaylist(search) {
@@ -141,6 +155,43 @@ class Track {
             console.error('Error searching Playlist:', error.message);
         }
         return tracks;
+    }
+
+    static async getPlaylistInfo(playlistId){
+        try {
+            if (!Track.accessToken) {
+                throw new Error('Access token not set');
+            }
+            const response = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}`, Track.searchParameters);
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            const data = await response.json();
+
+            //console.log(data)
+            return data;
+
+        } catch (error) {
+            console.error('Error geting Playlist info:', error.message);
+        }
+    }
+
+    static async getPlaylistInfoByName(playlistName){
+        try {
+            const playlistId = await Track.searchPlaylist(playlistName);
+            const data = await Track.getPlaylistInfo(playlistId)
+            //console.log(data)
+            const tracks = await Track.createPlaylist(playlistId)
+         
+
+            return {
+                id: playlistId,
+                name: data.name,
+                img: data.images[0].url,
+            };
+        } catch (error) {
+            console.error('Error geting Playlist info:', error.message);
+        }
     }
 
 }

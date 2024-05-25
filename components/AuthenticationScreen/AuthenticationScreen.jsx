@@ -38,7 +38,7 @@ const AuthenticationScreen = () => {
   
           //Create a playlists collection with one playlist for the new user
           const playlistId = await addPlaylist(credential.user, 'My Favorite Songs');
-          await addSongToPlaylist(credential.user, playlistId, 'Lejos', 'Delaossa');
+          await addSongToPlaylist(credential.user, playlistId, "6Ec5LeRzkisa5KJtwLfOoW");
 
         navigation.navigate('HomeScreen');
       }

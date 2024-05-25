@@ -4,6 +4,7 @@ import {SIZES, COLORS} from '../../constants'
 import { addPlaylist } from '../../playlistFunctions/playlistFunctions';
 import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from 'react-i18next';
+import {addSongToPlaylist} from './../../playlistFunctions/playlistFunctions.js'
 
 const AddListScreen = () => {
 
@@ -15,6 +16,7 @@ const AddListScreen = () => {
     try {
       const playlistId = await addPlaylist(user, playlistName);
       console.log(playlistId);
+      addSongToPlaylist(user, playlistId, "5OKy5809rOuZGRiCyWwfZS")
       // Aquí podrías navegar a otra pantalla o hacer alguna otra acción después de agregar la playlist
     } catch (error) {
       console.error('Error adding playlist in AddPlaylistScreen:', error.message);

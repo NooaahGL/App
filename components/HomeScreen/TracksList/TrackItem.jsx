@@ -17,7 +17,7 @@ const TrackItemHeader = (props) =>(
 )
 
 const TrackItem = (props) => (
-    <View key={props.isbn} style={styles.container}>
+    <View key={props.name} style={styles.container}>
         <TrackItemHeader {...props} />
         
     </View>

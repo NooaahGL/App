@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react"
 import { View, Text, FlatList} from "react-native"
 import TrackItem from "./TrackItem.jsx"
 import Track from "./../../../spotifyApi/Track.js"
+import {createPlaylist} from "./../../../playlistFunctions/playlistFunctions.js"
+import { useAuth } from "../../../context/AuthContext.js"
 
-const TrackList = ({children}) => {
+//For spotify playlist
+const TrackListByName = ({children}) => {
     
     const [playlist, setPlaylist] = useState([])
 
@@ -32,6 +35,66 @@ const TrackList = ({children}) => {
         />
     )
 }
+//For spotify playlist
+const TrackListById = ({children}) => {
+    
+    const [playlist, setPlaylist] = useState([])
+
+    const fetchPlaylist = async () =>{
+        //console.log(children);
+        const response = await Track.createPlaylist(children);
+        //console.log(response)
+        //const json = await response.json()
+        setPlaylist(response)
+
+    }
+
+    useEffect(() => {
+        fetchPlaylist()
+    }, [])
+
+    return(
+        <FlatList 
+            data={playlist}
+            ItemSeparatorComponent={()=> <Text></Text>}
+            renderItem={({item: repo}) =>(
+                <TrackItem {...repo}/>
+            )}
+        />
+    )
+}
 
 
-export default TrackList;
+//For user playlists
+const TrackMyListById = ({children}) => {
+    
+    const { user } = useAuth();
+
+    const [playlist, setPlaylist] = useState([])
+
+    const fetchPlaylist = async () =>{
+        console.log(children);
+        const response = await createPlaylist(user, children);
+        console.log(response)
+        //const json = await response.json()
+        setPlaylist(response)
+
+    }
+
+    useEffect(() => {
+        fetchPlaylist()
+    }, [])
+
+    return(
+        <FlatList 
+            data={playlist}
+            ItemSeparatorComponent={()=> <Text></Text>}
+            renderItem={({item: repo}) =>(
+                <TrackItem {...repo}/>
+            )}
+        />
+    )
+}
+
+
+export {TrackListByName, TrackListById, TrackMyListById};

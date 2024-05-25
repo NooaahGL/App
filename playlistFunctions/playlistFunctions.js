@@ -1,12 +1,14 @@
-import { collection, addDoc, getDocs, doc, setDoc } from '@firebase/firestore';
+import { collection, addDoc, getDocs, getDoc,  doc, setDoc } from '@firebase/firestore';
 import {db} from '../auth.js'
+import Track from '../spotifyApi/Track.js'
 
 const getAllPlaylistId = async (user) =>{
   try{
+    //const { user } = useAuth(); 
     const playlistsCollectionRef = collection(db, 'users', user.uid, 'playlists');
     const query = await getDocs(playlistsCollectionRef);  
     const playlistId = query.docs.map(doc => doc.id);
-    console.log(playlistId);
+    //console.log(playlistId);
     return playlistId;
   } catch (error) {
     console.error('Error getting all playlists:', error.message);
@@ -15,10 +17,11 @@ const getAllPlaylistId = async (user) =>{
 
 const getAllPlaylistNames = async (user) =>{
   try{
+    //const { user } = useAuth(); 
     const playlistsCollectionRef = collection(db, 'users', user.uid, 'playlists');
     const query = await getDocs(playlistsCollectionRef);  
     const playlistNames = query.docs.map(doc => doc.data().name);
-    console.log(playlistNames)
+    //console.log(playlistNames)
     return playlistNames;
   } catch (error) {
     console.error('Error getting all playlists:', error.message);
@@ -27,6 +30,7 @@ const getAllPlaylistNames = async (user) =>{
 
 const getAllPlaylist = async (user) =>{
   try{
+    //const { user } = useAuth(); 
     const playlistsCollectionRef = collection(db, 'users', user.uid, 'playlists');
     const query = await getDocs(playlistsCollectionRef);
     const playlistId = query.docs.map(doc => doc.id);  
@@ -36,7 +40,7 @@ const getAllPlaylist = async (user) =>{
       name: playlistNames[index]
     }));
     
-    console.log(allPlaylists)
+    //console.log(allPlaylists)
     return allPlaylists;
   } catch (error) {
     console.error('Error getting all playlists:', error.message);
@@ -45,6 +49,7 @@ const getAllPlaylist = async (user) =>{
 
 const addPlaylist = async (user, playlistName) => {
     try {
+      //const { user } = useAuth(); 
       const playlistsCollectionRef = collection(db, 'users', user.uid, 'playlists');
       const playlistDocRef = await addDoc(playlistsCollectionRef, { name: playlistName });
       console.log('Playlist added successfully with ID:', playlistDocRef.id);
@@ -54,20 +59,109 @@ const addPlaylist = async (user, playlistName) => {
     }
   };
   
-const addSongToPlaylist = async (user, playlistId, songTitle, songArtist) => {
+const addSongToPlaylist = async (user, playlistId, trackId) => {
   try {
+    //const { user } = useAuth(); 
     const songsCollectionRef = collection(db, 'users', user.uid, 'playlists', playlistId, 'songs');
-    await addDoc(songsCollectionRef, { title: songTitle, artist: songArtist });
+    await addDoc(songsCollectionRef, { id: trackId});
     console.log('Song added to playlist successfully!');
   } catch (error) {
     console.error('Error adding song to playlist:', error.message);
   }
 };
+const getPlaylistInfoById = async (user, playlistId) => {
+  
+  try {
+    const playlistDocRef = doc(db, 'users', user.uid, 'playlists', playlistId);
+    
+    const playlistDoc = await getDoc(playlistDocRef);
+
+    if (playlistDoc.exists()) {
+      const playlistData = playlistDoc.data();
+      const songsColRef = collection(db, 'users', user.uid, 'playlists', playlistId, 'songs');
+      const songs = await getDocs(songsColRef);
+
+      if (!songs.empty) {
+        // Get the first song document
+        const firstSongDoc = songs.docs[0];
+        const firstSongData = firstSongDoc.data();
+        const firstSongId = firstSongData.id;
+        
+        //console.log(firstSongId)
+        
+        const firstSong = new Track(firstSongId);
+        await firstSong.fetchTrackDetails();
+
+        // Extract image URL from track details
+        let imageUrl = null;
+        imageUrl = firstSong.getAlbumImg() || null;
+
+        //console.log(playlistId)
+        //console.log(playlistData.name)
+        //console.log(imageUrl)
+        
+        return {
+          id: playlistId,
+          name: playlistData.name,
+          img: imageUrl
+        };
+      }
+    } else {
+      console.error('Playlist does not exist');
+      return null;
+    }
+  } catch (error) {
+    console.error('Error getting playlist info by ID:', error.message);
+    return null;
+  }
+}
+
+
+const createPlaylist = async (user, playlistId) => {
+  try {
+    
+    const playlistDocRef = doc(db, 'users', user.uid, 'playlists', playlistId);
+    const playlistDoc = await getDoc(playlistDocRef);
+
+    if (playlistDoc.exists()) {
+      const playlistData = playlistDoc.data();
+      const songsColRef = collection(db, 'users', user.uid, 'playlists', playlistId, 'songs');
+      const songs = await getDocs(songsColRef);
+
+      if (!songs.empty) {
+        
+        const tracks = [];
+        for (const songDoc of songs.docs) {
+          const songData = songDoc.data();
+          const songId = songData.id;
+
+          const track = new Track(songId);
+
+          await track.fetchTrackDetails();
+
+          tracks.push(track);
+        }
+
+               
+        return tracks;
+      }
+    } else {
+      console.error('Playlist does not exist');
+      return null;
+    }
+  } catch (error) {
+    console.error('Error getting playlist info by ID:', error.message);
+    return null;
+  }
+}
+
 
 export {
   addPlaylist,
   addSongToPlaylist,
   getAllPlaylistId,
   getAllPlaylistNames,
-  getAllPlaylist
+  getAllPlaylist,
+  getPlaylistInfoById,
+  createPlaylist
 }

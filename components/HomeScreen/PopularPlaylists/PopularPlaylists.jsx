@@ -6,13 +6,17 @@ import { COLORS, SIZES } from '../../../constants'
 import PlaylistsCards from '../PlaylistsCards/PlaylistsCards'
 import { useTranslation } from 'react-i18next';
 
-import Track from '../../../spotifyApi/Track.js'
+import {PopularPlaylistItem} from '../PlaylistList/PlaylistItem.jsx'
 
 const PopularPlaylists = () => {
 
   const { t } = useTranslation();
   const isLoading = false;
   const error = false;
+
+  data = [ "Top 50: Global", "Top 50: España", "Los 50 más virales: Global", "Los 50 más virales: España", "Fresh Finds España", "Novedades Viernes España"]
+  const slicedData = data.slice(0, 3);
+
 
   return (
     <View style={styles.container}>
@@ -30,17 +34,13 @@ const PopularPlaylists = () => {
           <Text>{t('An_error_has_ocurred')}</Text>
         ) : (
           <FlatList
-            data = {[ "Top 50: Global", "Top 50: España", "Los 50 más virales: Global", "Los 50 más virales: España", "Fresh Finds España", "Novedades Viernes España"]}
+            data={slicedData}
+            
             renderItem={ ( {item} ) => (
-              <PlaylistsCards
-                item = {Track.searchPlaylist(item)}
-              >
-              {item}
-              </PlaylistsCards>
+              <PopularPlaylistItem name={item} />
             )}
-            keyExtractor = {item => item?.song_id}
             contentContainerStyle = {{ columnGap: SIZES.medium}}
-            horizontal
+            initialNumToRender={3}
           />
         )}
       </View>

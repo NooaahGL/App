@@ -8,11 +8,11 @@ const GlobalPlaylistList = ({children}) => {
     const [playlist, setPlaylist] = useState([])
 
     const fetchPlaylist = async () =>{
-        console.log("playlist list")
+        //console.log("playlist list")
         const playlistId = await Track.searchPlaylist(children);
-        console.log(playlistId);
+        //console.log(playlistId);
         const response = await Track.createPlaylist(playlistId);
-        console.log(response)
+        //console.log(response)
         //const json = await response.json()
         setPlaylist(response)
 
