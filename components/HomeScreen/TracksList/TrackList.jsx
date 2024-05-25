@@ -64,7 +64,6 @@ const TrackListById = ({children}) => {
     )
 }
 
-
 //For user playlists
 const TrackMyListById = ({children}) => {
     
@@ -73,9 +72,9 @@ const TrackMyListById = ({children}) => {
     const [playlist, setPlaylist] = useState([])
 
     const fetchPlaylist = async () =>{
-        console.log(children);
+        //console.log(children);
         const response = await createPlaylist(user, children);
-        console.log(response)
+        //console.log(response)
         //const json = await response.json()
         setPlaylist(response)
 

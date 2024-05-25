@@ -157,6 +157,7 @@ class Track {
         return tracks;
     }
 
+    //Returns playlist info from spotify: name, img...
     static async getPlaylistInfo(playlistId){
         try {
             if (!Track.accessToken) {
@@ -176,6 +177,7 @@ class Track {
         }
     }
 
+    //Returns playlist info from spotify(makes a search and gets the first one): id, name, img...
     static async getPlaylistInfoByName(playlistName){
         try {
             const playlistId = await Track.searchPlaylist(playlistName);

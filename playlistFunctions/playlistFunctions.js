@@ -2,6 +2,7 @@ import { collection, addDoc, getDocs, getDoc,  doc, setDoc } from '@firebase/fir
 import {db} from '../auth.js'
 import Track from '../spotifyApi/Track.js'
 
+//Returns an array of the playlist documents ids of the user
 const getAllPlaylistId = async (user) =>{
   try{
     //const { user } = useAuth(); 
@@ -15,6 +16,7 @@ const getAllPlaylistId = async (user) =>{
   }
 }
 
+//Returns an array of the playlist names of the user
 const getAllPlaylistNames = async (user) =>{
   try{
     //const { user } = useAuth(); 
@@ -28,6 +30,7 @@ const getAllPlaylistNames = async (user) =>{
   }
 }
 
+//Returns an array the playlist documents ids and the playlist names of the user
 const getAllPlaylist = async (user) =>{
   try{
     //const { user } = useAuth(); 
@@ -47,6 +50,7 @@ const getAllPlaylist = async (user) =>{
   }
 }
 
+//Add a playlist to the user without any songs
 const addPlaylist = async (user, playlistName) => {
     try {
       //const { user } = useAuth(); 
@@ -58,7 +62,8 @@ const addPlaylist = async (user, playlistName) => {
       console.error('Error adding playlist:', error.message);
     }
   };
-  
+
+//Add a song to the playlist
 const addSongToPlaylist = async (user, playlistId, trackId) => {
   try {
     //const { user } = useAuth(); 
@@ -69,6 +74,9 @@ const addSongToPlaylist = async (user, playlistId, trackId) => {
     console.error('Error adding song to playlist:', error.message);
   }
 };
+
+
+//Returns the id, the name and the image of the album of the first song of the playlist
 const getPlaylistInfoById = async (user, playlistId) => {
   
   try {
@@ -117,6 +125,7 @@ const getPlaylistInfoById = async (user, playlistId) => {
 }
 
 
+//Returns an array of Tracks of the songs in the user playlist
 const createPlaylist = async (user, playlistId) => {
   try {
     

@@ -5,8 +5,7 @@ import add from '../../assets/icons/add.png'
 import { useNavigation } from '@react-navigation/native'; 
 
 import Welcome from "../HomeScreen/Welcome/Welcome";
-import PopularPlaylists from './PopularPlaylists/PopularPlaylists';
-import MyLists from './MyPlaylists/MyPlaylists';
+import {PopularPlaylists, MyLists} from './PlaylistList/PlaylistList.jsx';
 import Track from '../../spotifyApi/Track.js';
 import {TrackListByName} from './TracksList/TrackList.jsx'
 import {TrackMyListById} from './TracksList/TrackList.jsx'

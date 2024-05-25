@@ -56,7 +56,6 @@ const LeftMenu = ({ visible, onClose }) => {
   if (!visible) return null;
   return (
     <View style={styles.container}>
-      <View style={styles.spacer} />
       <TouchableOpacity style={styles.menuOption} onPress={handleDeleteAccount}>
         <Text style={styles.menuOptionText}>{t('Delete_Account')}</Text>
       </TouchableOpacity>
@@ -66,6 +65,7 @@ const LeftMenu = ({ visible, onClose }) => {
       <TouchableOpacity style={styles.menuOption} onPress={navigateToSettings}>
         <Text style={styles.menuOptionText}>{t('Settings')}</Text>
       </TouchableOpacity>
+      <View style={styles.spacer} />
       <Button style={styles.logoutBtn} title={t("Logout")} color="red" onPress={handleLogout} />
     </View>
   );

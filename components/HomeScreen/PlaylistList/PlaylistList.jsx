@@ -1,37 +1,108 @@
-import React, { useEffect, useState } from "react"
-import { View, Text, FlatList} from "react-native"
-import TrackItem from "./TrackItem.jsx"
-import Track from "./../../../spotifyApi/Track.js"
+import React, { useEffect, useState } from 'react';
+import { View, Text, TouchableOpacity, ActivityIndicator, FlatList } from 'react-native'
 
-const GlobalPlaylistList = ({children}) => {
-    
-    const [playlist, setPlaylist] = useState([])
+import styles from './popularplaylists.styles'
+//import styles from './myplaylists.styles'
+import { COLORS, SIZES } from '../../../constants'
+import { useTranslation } from 'react-i18next';
 
-    const fetchPlaylist = async () =>{
-        //console.log("playlist list")
-        const playlistId = await Track.searchPlaylist(children);
-        //console.log(playlistId);
-        const response = await Track.createPlaylist(playlistId);
-        //console.log(response)
-        //const json = await response.json()
-        setPlaylist(response)
 
-    }
+import {getAllPlaylist,} from '../../../playlistFunctions/playlistFunctions.js'
+import { useAuth } from '../../../context/AuthContext.js';
 
-    useEffect(() => {
-        fetchPlaylist()
-    }, [])
 
-    return(
-        <FlatList 
-            data={playlist}
-            ItemSeparatorComponent={()=> <Text></Text>}
-            renderItem={({item: repo}) =>(
-                <TrackItem {...repo}/>
+import {PopularPlaylistItem, MyPlaylistItem} from './PlaylistItem.jsx'
+
+
+const PopularPlaylists = () => {
+
+  const { t } = useTranslation();
+  const isLoading = false;
+  const error = false;
+
+  data = [ "Top 50: Global", "Top 50: España", "Los 50 más virales: Global", "Los 50 más virales: España", "Fresh Finds España", "Novedades Viernes España"]
+  const slicedData = data.slice(0, 3);
+
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>{t('Popular_playlists')}</Text>
+        <TouchableOpacity>
+          <Text>{t('Show_all')}</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.tokensContainer}>
+        { isLoading ? (
+          <ActivityIndicator size="large" colors={COLORS.primary} />
+        ) : error ? (
+          <Text>{t('An_error_has_ocurred')}</Text>
+        ) : (
+          <FlatList
+            data={slicedData}
+            
+            renderItem={ ( {item} ) => (
+              <PopularPlaylistItem name={item} />
             )}
-        />
-    )
+            contentContainerStyle = {{ columnGap: SIZES.medium}}
+            initialNumToRender={3}
+          />
+        )}
+      </View>
+    </View>
+  )
 }
 
+const MyLists = () => {
 
-export default GlobalPlaylistList;
+    const isLoading = false;
+    const error = false;
+    
+    const { user } = useAuth(); 
+    const { t } = useTranslation();
+  
+    const [playlists, setPlaylists] = useState([]);
+  
+    useEffect(() => {
+      const fetchPlaylists = async () => {
+        const fetchedPlaylists = await getAllPlaylist(user);
+        const slicedData = fetchedPlaylists.slice(0, 3);
+  
+        setPlaylists(slicedData);
+      };
+  
+      if (user) fetchPlaylists();
+    }, [user]);
+  
+    return (
+      <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>{t('My_Lists')}</Text>
+        <TouchableOpacity>
+          <Text>{t('Show_all')}</Text>
+        </TouchableOpacity>
+      </View>
+  
+      <View style={styles.tokensContainer}>
+        { isLoading ? (
+          <ActivityIndicator size="large" colors={COLORS.primary} />
+        ) : error ? (
+          <Text>{t('An_error_has_ocurred')}</Text>
+        ) : (
+          <FlatList
+            data = {playlists}
+            renderItem={ ( {item} ) => (
+              <MyPlaylistItem {...item}/>
+            )}
+            contentContainerStyle = {{ columnGap: SIZES.medium}}
+            
+          />
+        )}
+      </View>
+    </View>
+    )
+  }
+  
+
+export {PopularPlaylists, MyLists};

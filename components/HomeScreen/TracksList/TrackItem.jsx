@@ -1,5 +1,6 @@
 import React from 'react'
-import {Image, View, Text, StyleSheet} from 'react-native'
+import {Image, View, Text, StyleSheet, TouchableOpacity} from 'react-native'
+import { AntDesign } from '@expo/vector-icons';
 
 const TrackItemHeader = (props) =>(
     //return(
@@ -12,6 +13,14 @@ const TrackItemHeader = (props) =>(
                 <Text>Artists:{props.artist[0]}</Text>
                 <Text>Album:{props.album}</Text>
             </View>
+            <View>
+                <TouchableOpacity>
+                    <AntDesign name="pluscircleo" size={24} color="black" />
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <AntDesign name="delete" size={24} color="black" />
+                </TouchableOpacity>
+            </View>
         </View>
     //)
 )
@@ -19,7 +28,6 @@ const TrackItemHeader = (props) =>(
 const TrackItem = (props) => (
     <View key={props.name} style={styles.container}>
         <TrackItemHeader {...props} />
-        
     </View>
 )
 

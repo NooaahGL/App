@@ -4,6 +4,7 @@ import Track from "./../../../spotifyApi/Track.js"
 import {getPlaylistInfoById} from "./../../../playlistFunctions/playlistFunctions.js"
 import { useAuth } from '../../../context/AuthContext.js'
 
+//For spotify Playlists
 const PopularPlaylistItemHeader = ( {name} ) =>{
 
     const [playlistInfo, setPlaylistInfo] = useState({});
@@ -15,9 +16,7 @@ const PopularPlaylistItemHeader = ( {name} ) =>{
             //console.log(data)
             setPlaylistInfo(data)
         } catch (err) {
-          setError(err.message);
-        } finally {
-          setIsLoading(false);
+          console.error(err.message);
         }
       };
     
@@ -40,10 +39,10 @@ const PopularPlaylistItemHeader = ( {name} ) =>{
 const PopularPlaylistItem = ({name }) => (
     <View key={name} style={styles.container}>
         <PopularPlaylistItemHeader name={name} />
-        
     </View>
 )
 
+//For users Playlists
 const MyPlaylistItemHeader = ( props ) =>{
 
     const { user } = useAuth();
@@ -57,10 +56,9 @@ const MyPlaylistItemHeader = ( props ) =>{
             //console.log(data)
             setPlaylistInfo(data)
         } catch (err) {
-          setError(err.message);
-        } finally {
-          setIsLoading(false);
+            console.error(err.message);
         }
+        
       };
     
       useEffect(() => {
@@ -82,7 +80,6 @@ const MyPlaylistItemHeader = ( props ) =>{
 const MyPlaylistItem = (props) => (
     <View key={props.name} style={styles.container}>
         <MyPlaylistItemHeader {...props} />
-        
     </View>
 )
 
