@@ -13,14 +13,7 @@ const TrackItemHeader = (props) =>(
                 <Text>Artists:{props.artist[0]}</Text>
                 <Text>Album:{props.album}</Text>
             </View>
-            <View>
-                <TouchableOpacity>
-                    <AntDesign name="pluscircleo" size={24} color="black" />
-                </TouchableOpacity>
-                <TouchableOpacity>
-                    <AntDesign name="delete" size={24} color="black" />
-                </TouchableOpacity>
-            </View>
+
         </View>
     //)
 )
@@ -31,7 +24,59 @@ const TrackItem = (props) => (
     </View>
 )
 
-export default TrackItem;
+const TrackItemHeaderAdd = (props) =>(
+    //return(
+        <View style={{flexDirection: 'row', paddingBottom: 2}}>
+            <View style={{paddingRight:10}}>
+                <Image style={styles.image} source={{uri: props.albumImg}} />
+            </View>
+            <View style={{flex: 1}}>
+                <Text>Name:{props.name}</Text>
+                <Text>Artists:{props.artist[0]}</Text>
+                <Text>Album:{props.album}</Text>
+            </View>
+            <View>
+                <TouchableOpacity>
+                    <AntDesign name="pluscircleo" size={24} color="black" />
+                </TouchableOpacity>
+            </View>
+        </View>
+    //)
+)
+
+const TrackItemAdd = (props) => (
+    <View key={props.name} style={styles.container}>
+        <TrackItemHeaderAdd {...props} />
+    </View>
+)
+
+const TrackItemHeaderDelete = (props) =>(
+    //return(
+        <View style={{flexDirection: 'row', paddingBottom: 2}}>
+            <View style={{paddingRight:10}}>
+                <Image style={styles.image} source={{uri: props.albumImg}} />
+            </View>
+            <View style={{flex: 1}}>
+                <Text>Name:{props.name}</Text>
+                <Text>Artists:{props.artist[0]}</Text>
+                <Text>Album:{props.album}</Text>
+            </View>
+            <View>
+                <TouchableOpacity>
+                    <AntDesign name="delete" size={24} color="black" />
+                </TouchableOpacity>
+            </View>
+        </View>
+    //)
+)
+
+const TrackItemDelete = (props) => (
+    <View key={props.name} style={styles.container}>
+        <TrackItemHeaderDelete {...props} />
+    </View>
+)
+
+export  {TrackItem, TrackItemAdd, TrackItemDelete};
 
 const styles = StyleSheet.create({
     container: {

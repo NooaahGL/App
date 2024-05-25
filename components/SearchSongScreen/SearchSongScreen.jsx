@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, FlatList } from 'react-native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import styles from './searchsongscreen.styles';
 import { icons } from '../../constants';
 import Track from '../../spotifyApi/Track';
+import {addSongToPlaylist} from '../../playlistFunctions/playlistFunctions.js'
 
-const SearchSong = ({ navigation }) => {
+const SearchSong = ({    }) => {
+  
+  const navigation = useNavigation();
+  const route = useRoute();
+  const { user, playlistId } = route.params;
   const { t } = useTranslation();
   const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults] = useState([]);
@@ -25,6 +31,7 @@ const SearchSong = ({ navigation }) => {
   const handleSongSelection = async (selectedSong) => {
     // Aquí puedes agregar lógica para agregar la canción a la lista de reproducción
     // Por ahora, solo pasaremos la canción seleccionada a PlaylistTracks
+    await addSongToPlaylist(user, playlistId, selectedSong.id)
     navigation.navigate('Playlist Tracks', { selectedSong: selectedSong });
   };
 

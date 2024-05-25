@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { COLORS } from '../../constants';
-import { TrackMyListById } from '../HomeScreen/TracksList/TrackList';
+import { TrackMyListByIdDelete } from '../HomeScreen/TracksList/TrackList';
 import styles from '../MyPlaylists/myplaylists.styles';
 
 const PlaylistTracks = () => {
@@ -16,7 +16,7 @@ const PlaylistTracks = () => {
         <Text style={styles.headerTitle}>Playlist Tracks</Text>
       </View>
       <View>
-        <TrackMyListById children={playlistId} />
+        <TrackMyListByIdDelete children={playlistId} />
       </View>
       <TouchableOpacity 
         style={customStyles.addButton} 
