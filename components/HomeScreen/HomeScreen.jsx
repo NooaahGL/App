@@ -8,6 +8,7 @@ import Welcome from "../HomeScreen/Welcome/Welcome";
 import PopularPlaylists from './PopularPlaylists/PopularPlaylists.jsx';
 import MyPlaylists from '../MyPlaylists/MyPlaylists.jsx'
 import Track from '../../spotifyApi/Track.js';
+import { useAuth } from '../../context/AuthContext.js';
 
 import { deleteSongFromPlaylist } from '../../playlistFunctions/playlistFunctions.js';
 
@@ -26,16 +27,6 @@ const HomeScreen = () => {
 
     return () => backHandler.remove();
   }, []);
-
-
-  //Track tests
-  const trackTest = async () => {
-    await deleteSongFromPlaylist('qNt0D8d72ChJUaZ0CE2TcGqX07l1','3b1zY6pELeIBbOj9RTuz','6Ec5LeRzkisa5KJtwLfOoW');
-  }
-  //trackTest();
-
-
-
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>

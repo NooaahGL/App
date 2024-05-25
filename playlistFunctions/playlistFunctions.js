@@ -77,6 +77,9 @@ const addSongToPlaylist = async (user, playlistId, trackId) => {
 
 const deleteSongFromPlaylist = async (user, playlistId, trackId) => {
   try {
+    console.log(user);
+    console.log(playlistId);
+    console.log(trackId);
     const songDocRef = doc(db, 'users', user.uid, 'playlists', playlistId, 'songs', trackId);
     await deleteDoc(songDocRef);
     console.log('Song deleted from playlist successfully!');
@@ -136,6 +139,7 @@ const getPlaylistInfoById = async (user, playlistId) => {
 
 
 //Returns an array of Tracks of the songs in the user playlist
+//Add the songDocId to the Tracks
 const createPlaylist = async (user, playlistId) => {
   try {
     
@@ -158,7 +162,17 @@ const createPlaylist = async (user, playlistId) => {
 
           await track.fetchTrackDetails();
 
-          tracks.push(track);
+          tracks.push({
+            id: track.getId(),
+            name: track.getName(),
+            album: track.getAlbum(),
+            albumId: track.getAlbumId(),
+            albumImg: track.getAlbumImg(),
+            artist: track.getArtist(),
+            artistId: track.getArtistId(),
+            duration: track.getDuration(),
+            songDocId: songDoc.id // Include the document ID in the returned object
+          });
         }
 
                

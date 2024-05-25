@@ -114,9 +114,11 @@ const TrackMyListByIdDelete = ({children}) => {
         fetchPlaylist()
     }, [])
 
-    const handleDelete = async (trackId) => {
+    const handleDelete = async (trackId, songDocId) => {
         // Aquí debes implementar la lógica de eliminación en tu backend
-        await deleteSongFromPlaylist(user, children, trackId);
+        console.log("borrando cancion")
+        await deleteSongFromPlaylist(user, children, songDocId);
+        console.log("cancion borrada")
         setPlaylist((prevPlaylist) => prevPlaylist.filter(track => track.id !== trackId));
     };
 
@@ -127,7 +129,7 @@ const TrackMyListByIdDelete = ({children}) => {
             renderItem={({item: track}) =>(
                 <TrackItemDelete 
                 {...track}
-                onDelete={() => handleDelete(track.id)}
+                onDelete={() => handleDelete(track.id, track.songDocId)}
                 />
             )}
         />

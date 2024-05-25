@@ -25,7 +25,7 @@ const PlaylistTracks = () => {
         <Text style={styles.headerTitle}>{playlistName}</Text>
       </View>
       <View>
-        <TrackMyListByIdDelete children={playlistId} />
+        <TrackMyListByIdDelete children={ playlistId} />
       </View>
       <TouchableOpacity 
         style={customStyles.addButton} 
