@@ -1,12 +1,12 @@
-import React, {useEffect} from 'react';
-import { View, ScrollView, SafeAreaView, TouchableOpacity, Text, Dimensions, StyleSheet, Image, BackHandler } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, SafeAreaView, TouchableOpacity, Text, Dimensions, StyleSheet, Image, BackHandler, FlatList } from 'react-native';
 import { SIZES, COLORS } from "../../constants";
-import add from '../../assets/icons/add.png'
+import add from '../../assets/icons/add.png';
 import { useNavigation } from '@react-navigation/native'; 
 
 import Welcome from "../HomeScreen/Welcome/Welcome";
 import PopularPlaylists from './PopularPlaylists/PopularPlaylists.jsx';
-import MyPlaylists from '../MyPlaylists/MyPlaylists.jsx'
+import MyPlaylists from '../MyPlaylists/MyPlaylists.jsx';
 import Track from '../../spotifyApi/Track.js';
 import { useAuth } from '../../context/AuthContext.js';
 
@@ -28,27 +28,38 @@ const HomeScreen = () => {
     return () => backHandler.remove();
   }, []);
 
+  const renderItem = ({ item }) => (
+    <View style={{ marginBottom: SIZES.medium }}>
+      {item}
+    </View>
+  );
+
+  const data = [
+    <Welcome key="welcome" />,
+    <PopularPlaylists key="popular-playlists" />,
+    <MyPlaylists key="my-playlists" />
+  ];
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={{ flex: 1, padding: SIZES.medium }}>
-          <Welcome />
-          <PopularPlaylists />
-          <MyPlaylists />
-        </View>
-      </ScrollView>
-
+      <FlatList
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.key}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ padding: SIZES.medium }}
+      />
       <View style={styles.bottomBar}>
         <TouchableOpacity style={styles.btnContainer} onPress={handleAddPlaylist}>
           <Image
             source={add}
             resizeMode='cover'
-            style = {styles.btnImg("80%")}
+            style={styles.btnImg("80%")}
           />
         </TouchableOpacity>
       </View>
     </SafeAreaView>
-  )
+  );
 };
 
 const styles = StyleSheet.create({

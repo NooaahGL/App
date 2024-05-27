@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text, TouchableWithoutFeedback, Animated } from 'react-native';
+import { View, StyleSheet, Text, TouchableWithoutFeedback, useWindowDimensions } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
@@ -14,46 +14,31 @@ import PlaylistTracks from '../components/PlaylistTracks/PlaylistTracks';
 import SearchSongScreen from '../components/SearchSongScreen/SearchSongScreen';
 import PopularPlaylistsTracks from '../components/HomeScreen/PopularPlaylists/PopularPlaylistsTracks';
 import ScreenHeaderBtn from "../components/ScreenHeaderBtn/ScreenHeaderBtn";
-
-import { SIZES, COLORS, images } from "../constants";
 import LeftMenu from '../components/LeftMenu/LeftMenu';
-import { useAuth } from '../context/AuthContext';
+
 import Flag from 'react-native-flags';
+
+import { useAuth } from '../context/AuthContext';
 import { useLocation } from '../Location/Location';
-import { runOnJS, useSharedValue, withSpring, useAnimatedStyle, useAnimatedGestureHandler } from 'react-native-reanimated';
+import { SIZES, COLORS, images } from "../constants";
 
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
-
   const [isLeftMenuVisible, setLeftMenuVisible] = useState(false);
   const [isRightMenuVisible, setRightMenuVisible] = useState(false);
 
   const { cityAndCountry, countryCode } = useLocation();
   const { profileImage } = useAuth();
 
-  const [flagSize, setFlagSize] = useState(32);
-
-  const flagScale = useSharedValue(1);
+  const { width, height } = useWindowDimensions();
 
   const handleOutsidePress = () => {
     setLeftMenuVisible(false);
     setRightMenuVisible(false);
   };
 
-  const onFlagPress = event => {
-    if (event.nativeEvent.state === State.ACTIVE) {
-      setFlagSize(40); // Cambia el tamaño a 40 cuando se presiona la bandera
-    } else if (event.nativeEvent.state === State.END) {
-      setFlagSize(32); // Restablece el tamaño a 32 cuando se suelta la bandera
-    }
-  };
-
-  const animatedFlagStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ scale: flagScale.value }], // Aplicar la escala animada
-    };
-  });
+  const isLargeScreen = width > 768;
 
   return (
     <TouchableWithoutFeedback onPress={handleOutsidePress}>
@@ -76,16 +61,10 @@ const Navigation = () => {
                 ),
                 headerRight: () => (
                   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Text style={{ marginRight: SIZES.medium }}>
+                    <Text style={{ marginRight: isLargeScreen ? SIZES.large : SIZES.medium }}>
                       {cityAndCountry ? `${cityAndCountry}` : 'Ubicación no disponible'}
                     </Text>
-                    {countryCode && (
-                      <TouchableWithoutFeedback>
-                        <PanGestureHandler onHandlerStateChange={onFlagPress}>
-                          <Flag code={countryCode} size={flagSize} style={{ marginRight: 5 }} />
-                        </PanGestureHandler>
-                      </TouchableWithoutFeedback>
-                    )}
+                    {countryCode && <Flag code={countryCode} size={isLargeScreen ? 48 : 32} style={{ marginRight: 5 }} />}
                   </View>
                 ),
                 headerTitle: '',
