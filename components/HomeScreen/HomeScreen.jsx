@@ -42,13 +42,15 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
-      <FlatList
-        data={data}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.key}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ padding: SIZES.medium }}
-      />
+      <View style={{marginBottom: 40}}>
+        <FlatList
+          data={data}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.key}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ padding: SIZES.medium }}
+        />
+      </View>
       <View style={styles.bottomBar}>
         <TouchableOpacity style={styles.btnContainer} onPress={handleAddPlaylist}>
           <Image

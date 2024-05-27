@@ -38,7 +38,7 @@ const MyPlaylistsExtended = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>{t('  All my Playlists')}</Text>
+        <Text style={styles.headerTitle}>{t("All_my_Playlists")}</Text>
       </View>
 
       <View style={styles.tokensContainer}>

@@ -28,6 +28,7 @@ const AuthenticationScreen = () => {
   }, [fadeAnim]);
 
   const handleAuthentication = async () => {
+    console.log("enter")
     try {
       if (isLogin) {
         await signInWithEmailAndPassword(auth, email, password);
@@ -110,7 +111,7 @@ const AuthenticationScreen = () => {
             onPressOut={handlePressOut}
             onPress={handleAuthentication}
           >
-            <Button color={COLORS.tertiary} title={isLogin ? t('Enter') : t('Create an account')} />
+            <Button color={COLORS.tertiary} onPress={handleAuthentication} title={isLogin ? t('Enter') : t('Create an account')} />
           </TouchableOpacity>
         </Animated.View>
         <Text style={styles.toggleText} onPress={handleToggle}>

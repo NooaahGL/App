@@ -1,11 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 import { COLORS } from '../../constants';
 import { TrackMyListByIdDelete } from '../HomeScreen/TracksList/TrackList';
 import styles from '../MyPlaylists/myplaylists.styles';
 
 const PlaylistTracks = () => {
+
+  const { t } = useTranslation();
   const route = useRoute();
   const navigation = useNavigation();
   const { user, playlistId, playlistName } = route.params;
@@ -31,7 +34,7 @@ const PlaylistTracks = () => {
         style={customStyles.addButton} 
         onPress={() => navigation.navigate('Search Song', { user: user, playlistId: playlistId })}
       >
-        <Text style={customStyles.addButtonText}>Add Song</Text>
+        <Text style={customStyles.addButtonText}>{t("Add_Song")}</Text>
       </TouchableOpacity>
     </View>
   );
