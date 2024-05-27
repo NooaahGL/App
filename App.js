@@ -1,16 +1,17 @@
+import React from 'react';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Navigation from './navigation/Navigation';
-import { AuthProvider } from './context/AuthContext'
+import { AuthProvider } from './context/AuthContext';
 import { fetchAccessToken } from './authSpotify';
 
 export default function App() {
-
   fetchAccessToken();
 
   return (
-    //AuthProvider: Manage of when the user signin and signout
-    //Navigation: Manage of the screens in the app
-    <AuthProvider>
-      <Navigation/>
-    </AuthProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <AuthProvider>
+        <Navigation />
+      </AuthProvider>
+    </GestureHandlerRootView>
   );
 }

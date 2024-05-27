@@ -24,6 +24,16 @@
     "Playlist_name": "Nombre de la lista",
     "Add_Playlist": "Añadir Lista",
     "My_Playlists": "Mis Listas",
-    "All_my_Playlists": "Todas mis listas"
+    "All_my_Playlists": "Todas mis listas",
+    "errorTitle": "Error",
+    "errorMessageDeleteAccount": "Hubo un error al eliminar tu cuenta.",
+    "alertTitleDeleteAccount": "Eliminar Cuenta",
+    "alertMessageDeleteAccount": "¿Estás seguro de que deseas eliminar tu cuenta?",
+    "cancel": "Cancelar",
+    "ok": "OK",
+    "Error": "Error",
+    "Passwords do not match": "Las contraseñas no coinciden",
+    "Profile updated successfully": "Perfil actualizado con éxito",
+    "Error updating profile": "Error al actualizar el perfil"
   }
   

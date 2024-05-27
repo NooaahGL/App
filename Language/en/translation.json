@@ -25,7 +25,17 @@
     "Playlist_name": "Playlist name",
     "Add_Playlist": "Add Playlist",
     "My_Playlists": "My Playlists",
-    "All_my_Playlists": "All my playlists"
+    "All_my_Playlists": "All my playlists",
+    "errorTitle": "Error",
+    "errorMessageDeleteAccount": "There was an error deleting your account.",
+    "alertTitleDeleteAccount": "Delete Account",
+    "alertMessageDeleteAccount": "Are you sure you want to delete your account?",
+    "cancel": "Cancel",
+    "ok": "OK",
+    "Error": "Error",
+    "Passwords do not match": "Passwords do not match",
+    "Profile updated successfully": "Profile updated successfully",
+    "Error updating profile": "Error updating profile"
 
 }
   

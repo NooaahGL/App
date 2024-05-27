@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, StyleSheet, Button, TouchableOpacity, Alert } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import { View, Text, StyleSheet, Button, TouchableOpacity, Alert, Animated } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../../context/AuthContext';
 import Constants from 'expo-constants';
@@ -13,6 +13,29 @@ const LeftMenu = ({ visible, onClose }) => {
   const navigation = useNavigation();
   const { t } = useTranslation();
 
+  const [deleteAccountActive, setDeleteAccountActive] = useState(false);
+  const [customUserDataActive, setCustomUserDataActive] = useState(false);
+  const [settingsActive, setSettingsActive] = useState(false);
+
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    if (visible) {
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    }
+  }, [visible, fadeAnim]);
+
   const handleLogout = async () => {
     await logout();
     onClose();
@@ -21,11 +44,11 @@ const LeftMenu = ({ visible, onClose }) => {
 
   const handleDeleteAccount = async () => {
     Alert.alert(
-      "Delete Account",
-      "Are you sure you want to delete your account?",
+      t('alertTitleDeleteAccount'),
+      t('alertMessageDeleteAccount'),
       [
-        { text: "Cancel", style: "cancel" },
-        { text: "OK", onPress: async () => {
+        { text: t('cancel'), style: "cancel" },
+        { text: t('ok'), onPress: async () => {
           try {
             const user = auth.currentUser;
             if (user) {
@@ -35,12 +58,31 @@ const LeftMenu = ({ visible, onClose }) => {
               navigation.navigate('Authentication');
             }
           } catch (error) {
-            console.error( "Error deleting account: ", error);
-            Alert.alert("Error", "There was an error deleting your account.");
+            console.error("Error deleting account: ", error);
+            Alert.alert(t('errorTitle'), t('errorMessageDeleteAccount'));
           }
         }},
       ]
     );
+  };
+
+  const handleMenuOptionPress = (callback, setActiveState) => {
+    setActiveState(true);
+    Animated.sequence([
+      Animated.timing(scaleAnim, {
+        toValue: 0.95,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(scaleAnim, {
+        toValue: 1,
+        duration: 100,
+        useNativeDriver: true,
+      })
+    ]).start(() => {
+      callback();
+      setActiveState(false);
+    });
   };
 
   const navigateToCustomUserData = () => {
@@ -55,19 +97,34 @@ const LeftMenu = ({ visible, onClose }) => {
 
   if (!visible) return null;
   return (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.menuOption} onPress={handleDeleteAccount}>
-        <Text style={styles.menuOptionText}>{t('Delete_Account')}</Text>
+    <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
+      <TouchableOpacity
+        style={[styles.menuOption, deleteAccountActive && styles.activeMenuOption]}
+        onPress={() => handleMenuOptionPress(handleDeleteAccount, setDeleteAccountActive)}
+      >
+        <Text style={[styles.menuOptionText, deleteAccountActive && styles.activeMenuOptionText]}>
+          {t('Delete_Account')}
+        </Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.menuOption} onPress={navigateToCustomUserData}>
-        <Text style={styles.menuOptionText}>{t('Custom_User_Data')}</Text>
+      <TouchableOpacity
+        style={[styles.menuOption, customUserDataActive && styles.activeMenuOption]}
+        onPress={() => handleMenuOptionPress(navigateToCustomUserData, setCustomUserDataActive)}
+      >
+        <Text style={[styles.menuOptionText, customUserDataActive && styles.activeMenuOptionText]}>
+          {t('Custom_User_Data')}
+        </Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.menuOption} onPress={navigateToSettings}>
-        <Text style={styles.menuOptionText}>{t('Settings')}</Text>
+      <TouchableOpacity
+        style={[styles.menuOption, settingsActive && styles.activeMenuOption]}
+        onPress={() => handleMenuOptionPress(navigateToSettings, setSettingsActive)}
+      >
+        <Text style={[styles.menuOptionText, settingsActive && styles.activeMenuOptionText]}>
+          {t('Settings')}
+        </Text>
       </TouchableOpacity>
       <View style={styles.spacer} />
       <Button style={styles.logoutBtn} title={t("Logout")} color="red" onPress={handleLogout} />
-    </View>
+    </Animated.View>
   );
 };
 
@@ -102,7 +159,13 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
   },
+  activeMenuOption: {
+    backgroundColor: 'lightblue', // Cambia el color de fondo cuando está activo
+  },
   menuOptionText: {
     fontSize: 18,
+  },
+  activeMenuOptionText: {
+    color: 'orange', // Cambia el color del texto cuando está activo
   },
 });

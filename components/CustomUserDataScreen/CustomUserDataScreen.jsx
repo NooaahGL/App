@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TextInput, Button, Image, TouchableOpacity, Alert } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, StyleSheet, TextInput, Button, Image, TouchableOpacity, Alert, Animated } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { useAuth } from '../../context/AuthContext';
 import { auth, db } from '../../auth';
@@ -9,9 +9,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { useTranslation } from 'react-i18next';
 
 const CustomUserDataScreen = () => {
-
   const { t } = useTranslation();
-
   const { user, profileImage, setProfileImage } = useAuth();
   const [name, setName] = useState(user?.displayName || '');
   const [surname, setSurname] = useState('');
@@ -19,6 +17,9 @@ const CustomUserDataScreen = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const buttonScale = useRef(new Animated.Value(1)).current;
+  const imageFadeAnim = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
     const loadUserData = async () => {
@@ -43,7 +44,13 @@ const CustomUserDataScreen = () => {
     };
 
     loadUserData();
-  }, [user.uid]);
+
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start();
+  }, [user.uid, fadeAnim]);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -54,13 +61,24 @@ const CustomUserDataScreen = () => {
     });
 
     if (!result.canceled) {
-      setProfileImage(result.assets[0].uri);
+      Animated.timing(imageFadeAnim, {
+        toValue: 0,
+        duration: 500,
+        useNativeDriver: true,
+      }).start(() => {
+        setProfileImage(result.assets[0].uri);
+        Animated.timing(imageFadeAnim, {
+          toValue: 1,
+          duration: 500,
+          useNativeDriver: true,
+        }).start();
+      });
     }
   };
 
   const handleUpdate = async () => {
     if (password !== confirmPassword) {
-      Alert.alert('Error', 'Passwords do not match');
+      Alert.alert(t('Error'), t('Passwords do not match'));
       return;
     }
 
@@ -80,10 +98,10 @@ const CustomUserDataScreen = () => {
         dob: dob.toISOString().split('T')[0], //YYYY-MM-DD
         photoURL: profileImage,
       });
-      Alert.alert('Profile updated successfully!');
+      Alert.alert(t('Profile updated successfully'));
     } catch (error) {
       console.error("Error updating profile: ", error);
-      Alert.alert('Error updating profile');
+      Alert.alert(t('Error updating profile'));
     }
   };
 
@@ -95,11 +113,25 @@ const CustomUserDataScreen = () => {
     setShowDatePicker(false);
   };
 
+  const handlePressIn = () => {
+    Animated.spring(buttonScale, {
+      toValue: 0.95,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const handlePressOut = () => {
+    Animated.spring(buttonScale, {
+      toValue: 1,
+      useNativeDriver: true,
+    }).start();
+  };
+
   return (
-    <View style={styles.container}>
+    <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
       <TouchableOpacity onPress={pickImage}>
-        <Image source={{ uri: profileImage }} style={styles.profileImage} />
-        <Text style={styles.uploadText}>{t('Upload_photo')}</Text>
+        <Animated.Image source={{ uri: profileImage }} style={[styles.profileImage, { opacity: imageFadeAnim }]} />
+        <Text style={styles.uploadText}>{t('Upload photo')}</Text>
       </TouchableOpacity>
       <View style={styles.inputContainer}>
         <Text style={styles.label}>{t('Name')}</Text>
@@ -136,7 +168,7 @@ const CustomUserDataScreen = () => {
         )}
       </View>
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>{t('New_Password')}</Text>
+        <Text style={styles.label}>{t('New Password')}</Text>
         <TextInput
           style={styles.input}
           value={password}
@@ -145,7 +177,7 @@ const CustomUserDataScreen = () => {
         />
       </View>
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>{t('Confirm_New_Password')}</Text>
+        <Text style={styles.label}>{t('Confirm New Password')}</Text>
         <TextInput
           style={styles.input}
           value={confirmPassword}
@@ -153,8 +185,16 @@ const CustomUserDataScreen = () => {
           secureTextEntry
         />
       </View>
-      <Button title={t('Update_profile')} onPress={handleUpdate} />
-    </View>
+      <Animated.View style={{ transform: [{ scale: buttonScale }] }}>
+        <TouchableOpacity
+          onPressIn={handlePressIn}
+          onPressOut={handlePressOut}
+          onPress={handleUpdate}
+        >
+          <Button title={t('Update profile')} onPress={handleUpdate} />
+        </TouchableOpacity>
+      </Animated.View>
+    </Animated.View>
   );
 };
 
