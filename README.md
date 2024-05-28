@@ -1,4 +1,4 @@
-_------------------------------------------------------------------Music App------------------------------------------------------------------_
+_------------------------------------------------------------Music App------------------------------------------------------------_
 
 This app was created for Ubiquitous applications technologies, an erasmus student subject. Is a Music App built with React Native, designed to provide users with a seamless music streaming experience. The app includes features such as user authentication, playlist management, and music playback.
 
